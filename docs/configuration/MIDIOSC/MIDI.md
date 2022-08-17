@@ -253,11 +253,11 @@ d1 $ sound "amencutup" + n (run (segment 1 $ range 1 16 $ cN 0 "32" ))
 
 ### Renaming MIDI notes
 
-In case you have a MIDI drum machine, where the bassdrum is on MIDI note 231 and you don't want to write `231` every time, you could either do this:
+In case you have a MIDI drum machine, where the bassdrum is on MIDI note 60 and you don't want to write `231` every time, you could either do this:
 
 ```haskell
 s2n :: String -> Note
-s2n "BD" = 231
+s2n "BD" = 60
 s2n _ = 0
 
 d1 $ n (s2n <$> "BD*4") # sound "tr8" # midichan 9
@@ -266,7 +266,7 @@ d1 $ n (s2n <$> "BD*4") # sound "tr8" # midichan 9
 Another approach is using `inhabit`, you pass it a list of names and patterns, like this:
 
 ```haskell
-let drum pat = sound (inhabit [("bd", "231"), ("sd", "232")] pat)
+let drum pat = sound (inhabit [("bd", "60"), ("sd", "61")] pat)
 ```
 
 ```haskell
@@ -276,16 +276,16 @@ d1 $ drum "bd sd" # midichan 9
 You could also hide the midi channel in there so you don't have to type it each time
 
 ```haskell
-let drum pat = sound (inhabit [("bd", "231"), ("sd", "232")] pat) # midichan 9
+let drum pat = sound (inhabit [("bd", "60"), ("sd", "61")] pat) # midichan 9
 
 d1 $ drum "bd sd"
 d2 $ drum "bd*3 sd*2"
 ```
 
-Note that the `232` bit is a pattern, so you could have one name trigger more than one event e.g.
+Note that the `61` bit is a pattern, so you could have one name trigger more than one event e.g.
 
 ```haskell
-let drum pat = sound (inhabit [("bd", "231"), ("rush", "232*8"), ("sd", "232")] pat) # midichan 9
+let drum pat = sound (inhabit [("bd", "60"), ("rush", "61*8"), ("sd", "61")] pat) # midichan 9
 
 d1 $ drum "bd sd rush"
 ```
